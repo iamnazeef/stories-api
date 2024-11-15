@@ -1,9 +1,10 @@
 from rest_framework.views import APIView
-from .models import Story
-from .serializers import StorySerializer
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
+
+from .models import Story
+from .serializers import StorySerializer
 
 
 class StoryView(APIView):
@@ -15,6 +16,10 @@ class StoryView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        # Check if the image is in request.FILES
+        if 'image' not in request.FILES:
+            return Response({"error": "No image file provided"}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = StorySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

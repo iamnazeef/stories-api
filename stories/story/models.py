@@ -5,7 +5,7 @@ from django.utils import timezone
 
 
 class Story (models.Model):
-    image = models.ImageField(upload_to="user_story/", blank=False)
+    image = models.ImageField(upload_to='user_story/', blank=False)
     caption = models.TextField(blank=True, max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(blank=True, null=True)
