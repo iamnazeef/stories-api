@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'story',
     'storages',
+    'rest_framework.authtoken',
+    'user_management',
 ]
 
 MIDDLEWARE = [
@@ -96,6 +98,13 @@ DATABASES = {
         'HOST': os.getenv('AWS_RDS_HOST'),
         'PORT': os.getenv('AWS_RDS_PORT')
     }
+}
+
+# Token based auth
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 }
 
 
