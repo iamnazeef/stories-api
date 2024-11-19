@@ -1,10 +1,13 @@
 from datetime import timedelta
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 # Create your models here.
 
 
 class Story (models.Model):
+    user = models.ForeignKey(
+        User, null=True, blank=True, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='user_story/', blank=False)
     caption = models.TextField(blank=True, max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
