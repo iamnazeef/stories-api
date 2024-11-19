@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
 import os
 
 # take environment variables from .env.
@@ -162,4 +163,10 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
     }
+}
+
+# JWT Token
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
 }
