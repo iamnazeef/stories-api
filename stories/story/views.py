@@ -16,7 +16,7 @@ class StoryView(APIView):
             return Response(StorySerializer(story).data)
 
         stories = Story.objects.filter(
-            expires_at__gt=current_time).order_by('-created_at')
+            expires_at__gt=current_time, is_active=True).order_by('-created_at')
         serializer = StorySerializer(stories, many=True)
         return Response(serializer.data)
 
