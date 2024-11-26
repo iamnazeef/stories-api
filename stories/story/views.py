@@ -12,8 +12,10 @@ class StoryView(APIView):
     def get(self, request, id=None):
         current_time = timezone.now()
         if id is not None:
-            story = get_object_or_404(Story, id=id)
-            return Response(StorySerializer(story).data)
+            story = StorySerializer(get_object_or_404(Story, id=id)).data
+            if story["is_active"]:
+                return Response(story)
+            return Response({"detail": "This story has been removed"}, status=status.HTTP_200_OK)
 
         stories = Story.objects.filter(
             expires_at__gt=current_time, is_active=True).order_by('-created_at')
