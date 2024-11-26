@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
@@ -19,8 +20,12 @@ class StoryView(APIView):
 
         stories = Story.objects.filter(
             expires_at__gt=current_time, is_active=True).order_by('-created_at')
-        serializer = StorySerializer(stories, many=True)
-        return Response(serializer.data)
+
+        paginator = PageNumberPagination()
+        paginated_stories = paginator.paginate_queryset(stories, request)
+
+        serializer = StorySerializer(paginated_stories, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
     def post(self, request):
         if not request.user.is_authenticated:
