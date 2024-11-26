@@ -12,6 +12,7 @@ class Story (models.Model):
     caption = models.TextField(blank=True, max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(blank=True, null=True)
+    is_active = models.BooleanField(default=True, blank=True)
 
     def save(self, *args, **kwargs):
         # Ensure `created_at` is set to `timezone.now()` if not already set
@@ -20,6 +21,9 @@ class Story (models.Model):
 
         if not self.expires_at:
             self.expires_at = self.created_at + timedelta(hours=24)
+
+        # By default all stories are active
+        self.is_active = True
         super().save(*args, **kwargs)
 
     def __str__(self):
